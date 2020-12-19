@@ -58,6 +58,11 @@
             Documentation
           </a>
         </div>
+        <div>
+          <h2>Show config settings</h2>
+          <p>baseUrl is: {{ $config.baseURL }}</p>
+          <p>apiSecret is: {{ $config.apiSecret }}</p>
+        </div>
       </div>
     </div>
   </div>

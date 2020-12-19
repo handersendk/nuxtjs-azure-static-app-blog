@@ -62,6 +62,16 @@
           <h2>Show config settings</h2>
           <p>baseUrl is: {{ $config.baseURL }}</p>
           <p>apiSecret is: {{ $config.apiSecret }}</p>
+          <p>azfunApiUrl is: {{ $config.azfunApiUrl }}</p>
+        </div>
+        <div>
+          <h2>API Call</h2>
+          <div>
+            <button @click="callAzureFunction">Function API</button>
+            <div>
+              {{ functionApiResult }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -69,7 +79,29 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      functionApiResult: "not called",
+    };
+  },
+  methods: {
+    async callAzureFunction() {
+      let apiUrl = this.$config.azfunApiUrl;
+      console.log(apiUrl);
+      let _self = this;
+      this.$axios
+        .get(apiUrl)
+        .then(function (response) {
+          console.log(response);
+          _self.functionApiResult = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

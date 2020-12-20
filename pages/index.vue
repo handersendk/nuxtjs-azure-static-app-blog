@@ -63,13 +63,25 @@
           <p>baseUrl is: {{ $config.baseURL }}</p>
           <p>apiSecret is: {{ $config.apiSecret }}</p>
           <p>azfunApiUrl is: {{ $config.azfunApiUrl }}</p>
+          <p>apiManagementApiUrl is: {{ $config.apiManagementApiUrl }}</p>
         </div>
         <div>
-          <h2>API Call</h2>
+          <h2>Azure Function - API Call</h2>
           <div>
-            <button @click="callAzureFunction">Function API</button>
+            <button @click="callAzureFunction">Azure Function API</button>
             <div>
               {{ functionApiResult }}
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2>API Management - API Call</h2>
+          <div>
+            <button @click="callApiManagementFunction">
+              API Management API
+            </button>
+            <div>
+              {{ apiManagementApiResult }}
             </div>
           </div>
         </div>
@@ -83,6 +95,7 @@ export default {
   data() {
     return {
       functionApiResult: "not called",
+      apiManagementApiResult: "not called",
     };
   },
   methods: {
@@ -95,6 +108,20 @@ export default {
         .then(function (response) {
           console.log(response);
           _self.functionApiResult = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    async callApiManagementFunction() {
+      let apiUrl = this.$config.apiManagementApiUrl;
+      console.log(apiUrl);
+      let _self = this;
+      this.$axios
+        .get(apiUrl)
+        .then(function (response) {
+          console.log(response);
+          _self.apiManagementApiResult = response.data;
         })
         .catch(function (error) {
           console.log(error);
